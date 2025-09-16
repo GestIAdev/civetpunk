@@ -14,10 +14,19 @@ Instrucciones rápidas para despliegue ultrarrápido en Cloudflare Pages
    - Ejecuta build + export: npm run export --prefix web
    - El resultado quedará en `web/out` listo para subir a Pages o servir como static site.
 
-5) Opcional: usa Wrangler para subir como Workers Site (requires Wrangler v2+):
-   - Instalar: npm install -g wrangler
-   - Autenticar: wrangler login
-   - Publicar: wrangler publish --site --env production
+5) Nota importante sobre CI en Cloudflare:
+   - En Cloudflare Pages NO uses `npx wrangler deploy --assets=./build` como comando de build.
+     Ese comando está pensado para publicar mediante Wrangler/Workers y espera un entry-point JS
+     (`workers-site/index.js`) que no existe en este repo — por eso recibes el error
+     "The entry-point file at \"workers-site/index.js\" was not found.".
+   - En su lugar configura Pages para ejecutar `npm run export` y usar `web/out` como directorio
+     de salida (Build command: `npm run export`, Output directory: `web/out`).
+
+6) Si realmente quieres publicar como Workers Site con Wrangler (opcional):
+   - Genera la carpeta estática en `web/out` localmente.
+   - Crea el archivo `workers-site/index.js` que haga `export { default } from './static-handler'` o
+     crea un pequeño worker que sirva archivos estáticos (requiere añadir `main = "workers-site/index.js"`
+     a `wrangler.toml`). Esto es más complejo; para Pages estática no es necesario.
 
 Notas:
 - Este repositorio fuerza `main` como rama única. No crear otras ramas si quieres seguir la política del proyecto.
