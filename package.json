@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build:pages": "npm ci --prefix web && npm run export --prefix web"
+    "build:pages": "npm install --prefix web && npm run export --prefix web"
   },
   "devDependencies": {
     "wrangler": "^4.37.1"
