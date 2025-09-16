@@ -5,3 +5,9 @@ build/
 .vscode/
 .DS_Store
 docs/
+.next/
+web/node_modules/
+web/package-lock.json
+web/.next/
+web/.env
+/.idea/
